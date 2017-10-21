@@ -1,15 +1,7 @@
 # Hardware PWM
-Now that you have done the software version of PWM, now it is time to start leveraging the other features of these Timer Modules.
-
-## Task
-You need to replicate the same behavior as in the software PWM, only using the Timer Modules ability to directly output to a GPIO Pin instead of managing them in software. 
-
-### Hints 
-Read up on the P1SEL registers as well as look at the Timer modules ability to multiplex.
-
-## Extra Work
-### Using ACLK
-Some of these microprocessors have a built in ACLK which is extremely slow compared to your up to 25MHz available on some of them. What is the overall impact on the system when using this clock? Can you actually use your PWM code with a clock that slow?
-
-### Ultra Low Power
-Using a combination of ACLK, Low Power Modes, and any other means you may deem necessary, optimize this PWM code to run at 50% duty cycle with a LED on the MSP430FR5994. In particular, time how long your code can run on the fully charged super capacitor. You do not need to worry about the button control in this case, and you will probably want to disable all the GPIO that you are not using (nudge, nudge, hint, hint).
+## Objectives
+The goal of this lab was to use hardware techniques to create a PWM that will toggle the brightness of an LED.
+## Summary
+The lab involved the basic initalization done as always with the addition of a few enables. To begin we set the timer for the PWM by using the SMCLK in up mode, then we set the period by saying TA0CCR0 = 1000, and the duty cyle to 50% using TA0CCR1 = 500. Then using an if statement inside of an infinite loop we are able to determine whether to increment the duty cycle by 100 (10%) or whether to keep the duty cycle the same based on whether or not the button is pressed.
+## Code Differences
+Pins all change of course, but the line of code "PM5CTL0 &= ~LOCKLPM5;"is required in order to disable the GPIO power-on default high-impedance mode for the 2311 and 6989. The 2311 has no TimerA so TimerB was used for that implementation.
